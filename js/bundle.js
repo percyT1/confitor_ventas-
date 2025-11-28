@@ -483,7 +483,7 @@ function renderSales(container) {
                     </button>
                 </div>
 
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.25rem;">
                     ${galleryProducts.map(p => `
                         <div onclick="window.salesPromptQuantity(${p.id})" style="cursor: pointer; position: relative; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius); border: 2px solid transparent; box-shadow: var(--shadow-sm); transition: transform 0.1s;">
                             <img src="${p.image.startsWith('http') || p.image.startsWith('data:') ? p.image : 'img/' + p.image}" 
