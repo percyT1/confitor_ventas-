@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Ventas CONFITOR</title>
+
+    <!-- PWA Settings -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="apple-touch-icon" href="img/logo.jpg">
+
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <!-- Google Fonts: Inter for a clean, modern look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons (via CDN for simplicity in vanilla) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div id="app" class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <i data-lucide="zap" class="logo-icon"></i>
+                <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                    <span class="logo-text">VentasPro <span style="color: #ef4444;">CONFITOR</span></span>
+                    <!-- LOGO: Reemplaza el archivo en 'img/logo.jpg' con tu imagen -->
+                    <img src="img/logo.jpg" onerror="this.src='https://via.placeholder.com/150x50?text=SIN+LOGO'"
+                        alt="Logo Confitor"
+                        style="margin-top: 0.5rem; max-width: 150px; height: auto; border-radius: 4px;">
+                </div>
+            </div>
+            <nav class="main-nav">
+                <button class="nav-item active" data-module="dashboard">
+                    <i data-lucide="layout-dashboard"></i> Dashboard
+                </button>
+                <button class="nav-item" data-module="products">
+                    <i data-lucide="package"></i> Productos
+                </button>
+                <button class="nav-item" data-module="clients">
+                    <i data-lucide="users"></i> Clientes
+                </button>
+                <button class="nav-item" data-module="sales">
+                    <i data-lucide="shopping-cart"></i> Ventas (POS)
+                </button>
+                <button class="nav-item" data-module="reports">
+                    <i data-lucide="bar-chart-3"></i> Reportes
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button id="mobile-menu-btn"
+                        style="display: none; background: none; border: none; cursor: pointer; color: var(--text-main);">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <h1 id="page-title">Dashboard</h1>
+                </div>
+                <div class="user-profile">
+                    <span class="user-name">Admin</span>
+                    <div class="avatar">A</div>
+                </div>
+            </header>
+
+            <div id="content-area" class="content-area">
+                <!-- Dynamic content will be loaded here -->
+                <div class="welcome-card">
+                    <h2>Bienvenido al Sistema</h2>
+                    <p>Selecciona una opción del menú para comenzar.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/bundle.js"></script>
+    <div style="position: fixed; bottom: 5px; right: 5px; font-size: 10px; color: #ccc; z-index: 9999;">v3.0 (Bundle)
+    </div>
+</body>
+
+</html>
