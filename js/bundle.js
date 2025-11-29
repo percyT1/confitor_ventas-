@@ -675,8 +675,6 @@ function renderSales(container) {
     render();
 }
 
-
-
 // --- REPORTS MODULE ---
 function renderReports(container) {
     // Load Data
@@ -1034,6 +1032,23 @@ function loadModuleContent(moduleName) {
                             <div style="font-size: 2rem; font-weight: 700; color: var(--text-main);">${formatMoney(totalSales)}</div>
                         </div>
                     </div>
+
+                    <!-- Backup Section -->
+                    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+                        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main);">Gestión de Datos (Respaldo)</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">Descarga una copia de seguridad para llevar tus datos a otro dispositivo.</p>
+                        
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button onclick="window.exportData()" style="background: var(--primary); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+                                <i data-lucide="download"></i> Descargar Datos (Backup)
+                            </button>
+                            
+                            <button onclick="window.importData()" style="background: white; color: var(--text-main); border: 1px solid var(--border-color); padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+                                <i data-lucide="upload"></i> Cargar Datos (Restaurar)
+                            </button>
+                            <input type="file" id="import-file" style="display: none;" accept=".json" onchange="window.handleFileImport(this)">
+                        </div>
+                    </div>
                 </div>
             `;
             break;
@@ -1058,6 +1073,56 @@ function loadModuleContent(moduleName) {
         window.lucide.createIcons();
     }
 }
+
+// --- BACKUP & RESTORE HANDLERS ---
+window.exportData = () => {
+    const data = {
+        products: JSON.parse(localStorage.getItem('products')) || [],
+        clients: JSON.parse(localStorage.getItem('clients')) || [],
+        salesHistory: JSON.parse(localStorage.getItem('salesHistory')) || [],
+        timestamp: new Date().toISOString()
+    };
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `backup_confitor_${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+};
+
+window.importData = () => {
+    document.getElementById('import-file').click();
+};
+
+window.handleFileImport = (input) => {
+    const file = input.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        try {
+            const data = JSON.parse(e.target.result);
+
+            if (confirm(`Se encontraron:\n- ${data.products?.length || 0} Productos\n- ${data.clients?.length || 0} Clientes\n- ${data.salesHistory?.length || 0} Ventas\n\n¿Deseas reemplazar los datos actuales con esta copia?`)) {
+                if (data.products) localStorage.setItem('products', JSON.stringify(data.products));
+                if (data.clients) localStorage.setItem('clients', JSON.stringify(data.clients));
+                if (data.salesHistory) localStorage.setItem('salesHistory', JSON.stringify(data.salesHistory));
+
+                alert('¡Datos restaurados correctamente! La página se recargará.');
+                location.reload();
+            }
+        } catch (err) {
+            alert('Error al leer el archivo de respaldo. Asegúrate de que sea un archivo JSON válido.');
+            console.error(err);
+        }
+    };
+    reader.readAsText(file);
+    input.value = ''; // Reset input
+};
 
 // Event Listeners
 navItems.forEach(item => {
